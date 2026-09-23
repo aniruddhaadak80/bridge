@@ -79,7 +79,7 @@ class DjangoHandler(FrameWorkHandler):
                 "SECRET_KEY" in self.framework_locals
                 and "SECRET_KEY" in os.environ
                 and self.framework_locals["SECRET_KEY"]
-                and self.framework_locals != os.environ.get("SECRET_KEY")
+                and self.framework_locals["SECRET_KEY"] != os.environ.get("SECRET_KEY")
             ):
                 # If the SECRET_KEY from the current remote environment is different
                 # from an explicitly set SECRET_KEY in the framework locals, we should
