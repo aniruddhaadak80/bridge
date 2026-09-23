@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Optional
 
 import yaml
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from yaml import CDumper as Dumper
 from yaml import CLoader as Loader
 from yaml import dump, load
@@ -44,7 +44,7 @@ def get_config() -> BridgeConfig:
     try:
         with CONFIG_PATH.open(mode="r") as f:
             __CONFIG = BridgeConfig.from_yaml(f.read())
-    except yaml.YAMLError:
+    except (yaml.YAMLError, ValidationError):
         log_warning("Failed to read configuration file. Using default configuration.")
         __CONFIG = BridgeConfig()
 
