@@ -107,7 +107,7 @@ class DjangoHandler(FrameWorkHandler):
             self.framework_locals["STATICFILES_STORAGE"] = (
                 "whitenoise.storage.CompressedManifestStaticFilesStorage"
             )
-            middleware: list[str] = self.framework_locals.get("MIDDLEWARE", [])
+            middleware: list[str] = list(self.framework_locals.get("MIDDLEWARE") or [])
             if "whitenoise.middleware.WhiteNoiseMiddleware" not in middleware:
                 security_middleware_idx = next(
                     (
@@ -118,7 +118,7 @@ class DjangoHandler(FrameWorkHandler):
                     None,
                 )
                 if security_middleware_idx is not None:
-                    middleware.insert(  # TODO this won't work with a tuple, we may want to modify
+                    middleware.insert(
                         security_middleware_idx + 1,
                         "whitenoise.middleware.WhiteNoiseMiddleware",
                     )
